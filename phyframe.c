@@ -1,47 +1,68 @@
-// NOTE: this stack will have to be modified and additional functions will have to be added according to the comments at the bottom of mempart2.c
+// first frame is reserved for the OS
+// simple page allocation scheme: start from 1,2,3
+// if frame is available, then allocate from available
+// if not available, use LRU page replacement policy to choose a frame to be replaced
 #include <stdlib.h>
-
-typedef struct Node
-{
-    int pageNumber;
-    Node *next;
-} Node;
 
 typedef struct Stack
 {
-    Node *head;
+    int pageNumbers[7]; // as there are only 7 physical frames to use, it is easier to use 7 here as the size of the stack
+    int top;
 } Stack;
 
-int isEmpty(Stack *stack)
+void initializeStack(Stack *stack)
 {
-    return stack->head == NULL;
+    stack->top = -1;
 }
 
-void push(Stack *stack, int data)
+void moveToTop(Stack *stack, int index)
 {
-    Node *newNode = (Node *)malloc(sizeof(Node));
-    if (newNode == NULL)
+    int pageNumber = stack->pageNumbers[index];
+    for (int i = index; i < stack->top; i++)
     {
-        printf("Stack Overflow!");
-        return;
+        stack->pageNumbers[i] = stack->pageNumbers[i + 1];
     }
-    newNode->pageNumber = data;
-    newNode->next = stack->head;
-    stack->head = newNode;
+    stack->pageNumbers[stack->top] = pageNumber; // move accessed page number to the top
 }
 
-int pop(Stack *stack)
+void pushPage(Stack *stack, int pageNumber)
 {
-    if (isEmpty(stack))
+    if (stack->top != 6) // stack is not full and we can just put the page number at the top
     {
-        printf("Stack Underflow");
-        return;
+        stack->pageNumbers[++stack->top] = pageNumber;
     }
+    else // stack is full, remove bottom element, and move all other elements and put the new element at the top
+    {
+        for (int i = 0; i < stack->top; i++)
+        {
+            stack->pageNumbers[i] = stack->pageNumbers[i + 1];
+        }
+        stack->top--; // we just removed an element from the stack so decrement top
+        stack->pageNumbers[++stack->top] = pageNumber; // put new element at top
+    }
+}
 
-    Node *temp = stack->head;
-    stack->head = stack->head->next;
+int findPage(Stack *stack, int page)
+{
+    for (int i = 0; i < stack->top; i++)
+    {
+        if (stack->pageNumbers[i] == page)
+        {
+            return i; // return stack index of found page number
+        }
+    }
+    return -1; // page not found
+}
 
-    int pageNumber = temp->pageNumber;
-    free(temp);
-    return pageNumber;
+void accessPage(Stack *stack, int pageNumber)
+{
+    int index = findPage(stack, pageNumber);
+    if (index != -1)
+    { // page found in stack so just move it to the top
+        moveToTop(stack, pageNumber);
+    }
+    else
+    { // page not found in stack so push it
+        pushPage(stack, pageNumber);
+    }
 }
