@@ -77,4 +77,3 @@ int main(int argc, char *argv[])
 // if the page number doesnt exist in the stack means it wasnt in the page table as well and will be added in the page table. hence add it on the top of the stack
 // at any point, the element at the bottom of the stack will be the least recently used element
 // so when the page table is full and an element needs to be replaced, it will be this last element that will be up for replacement
-
