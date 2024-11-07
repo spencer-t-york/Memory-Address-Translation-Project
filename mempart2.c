@@ -66,3 +66,15 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
+// comments for LRU:
+// keep in mind: stack contains page numbers. in the page table, the indices are physical frame numbers, and the content at an index is the virtual page number
+// implement using stack or linked list, implementation details will vary. opinion: array will be easier since we have to access bottom of the stack and move elements around
+// when a page is accessed: two cases
+// 1) if the page number doesnt exist in the stack: push it on the top
+// 2) if the page number does exist in the stack: move it to the top
+// what does this mean? when the page number does exist it means the page table already has an entry for it, it was just accessed again
+// if the page number doesnt exist in the stack means it wasnt in the page table as well and will be added in the page table. hence add it on the top of the stack
+// at any point, the element at the bottom of the stack will be the least recently used element
+// so when the page table is full and an element needs to be replaced, it will be this last element that will be up for replacement
+
