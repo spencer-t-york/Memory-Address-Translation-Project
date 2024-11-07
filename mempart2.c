@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 
         //
 
-        // fprintf(outfile, "0x%04lX\n", physical_address);
+        // fprintf(outfile, "0x%04lX\n", physicalAddress);
     }
 
     fclose(outfile);
