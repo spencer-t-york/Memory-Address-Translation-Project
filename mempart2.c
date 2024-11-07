@@ -52,7 +52,12 @@ int main(int argc, char *argv[])
         // if the page number exists at an index y, then y is the frame number for it
         // answer: physical address will be y * 128 + offset
 
-        // if the page number doesnt exist, then use LRU and replace
+        // if the page number doesnt exist: two scenarios
+        // check if there are available entries to use, if yes then use one
+        // if no available entries to use: then use LRU and replace one entry in the page table, the one that is the least recently used
+        // this will count as a page fault and increment a page fault counter
+
+        //
 
         // fprintf(outfile, "0x%04lX\n", physical_address);
     }
