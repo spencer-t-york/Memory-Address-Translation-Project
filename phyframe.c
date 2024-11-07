@@ -1,7 +1,4 @@
-// first frame is reserved for the OS
-// simple page allocation scheme: start from 1,2,3
-// if frame is available, then allocate from available
-// if not available, use LRU page replacement policy to choose a frame to be replaced
+// NOTE: this stack will have to be modified and additional functions will have to be added according to the comments at the bottom of mempart2.c
 #include <stdlib.h>
 
 typedef struct Node
