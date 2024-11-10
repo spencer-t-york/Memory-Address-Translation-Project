@@ -45,3 +45,22 @@ At the end, you can use the same function from **Part 1** to output the translat
 - You are provided with a `part2` input file named `part2sequence`.
 - Similar to Part 1, report the **md5sum** of your output file by writing it to **`p2result.txt`**.
 - Additionally, your program should report the **number of page faults** encountered for the given access sequence, which should also be recorded in `p2result.txt`.
+
+# Notes
+### Program Process
+- For each virtual address, extract VPN and offset
+- Check if VPN is in table:
+  - If yes, 
+    - update stack
+    - translate virtual address to physical address
+  - If no,
+    - increment page fault counter
+    - check for free frame
+    - otherwise use LRU replacement
+    - translate virtual address to physical address
+
+### LRU Policy
+- We are using the stack implementation of the LRU policy
+    - Using an array so the last element is easier/faster to access
+    - When a page number is accessed (whether it is currently in the stack or note, it is moved to the top of the stack.
+    - At any point, the least recently used page number is at the bottom of the stack. This element will be replaced
