@@ -1,3 +1,4 @@
+# Note to self: update to reflect a size 8 array with the first reserved for OS!
 # Memory Partitioning: Part 2
 
 In this part, you will design the page table and handle allocations of physical frames on the same machine as discussed above. You will create two new source files: `phyframe.c` and `pagetable.c`, as well as a new main program, named `mempart2.c`, plus any necessary header files. Here:
