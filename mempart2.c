@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
         fprintf(outfile, "0x%04lX\n", physical_address);
     }
 
-    fclose(outfile);
     printf("Page Fault Count: %d\n", pageFaultCounter);
+    fclose(outfile);
     return 0;
 }
