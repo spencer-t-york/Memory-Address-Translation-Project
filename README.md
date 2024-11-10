@@ -1,4 +1,3 @@
-# Note to self: update to reflect a size 8 array with the first reserved for OS!
 # Memory Partitioning: Part 2
 
 In this part, you will design the page table and handle allocations of physical frames on the same machine as discussed above. You will create two new source files: `phyframe.c` and `pagetable.c`, as well as a new main program, named `mempart2.c`, plus any necessary header files. Here:
@@ -49,16 +48,27 @@ At the end, you can use the same function from **Part 1** to output the translat
 
 # Notes
 ### Program Process
-- For each virtual address, extract VPN and offset
-- Check if VPN is in table:
-  - If yes, 
-    - update stack
-    - translate virtual address to physical address
-  - If no,
-    - increment page fault counter
-    - check for free frame
-    - otherwise use LRU replacement
-    - translate virtual address to physical address
+- Check if the `virtualPageNumber` from the logical address is in the `invertedPageTable`:
+  - If yes:
+    - The index of the `virtualPageNumber` in the `invertedPageTable` is the `physicalFrameNumber`.
+    - Update the `LRUstack` to move the `virtualPageNumber` to the top (as most recent).
+    - Return the index of the `virtualPageNumber` in the `invertedPageTable` as the `physicalFrameNumber`.
+  - If no:
+    - Increment the `pageFaultCounter`.
+    - Check if there is an open spot in the `invertedPageTable`:
+      - If yes:
+        - Store the `virtualPageNumber` in that open index.
+        - Update the `LRUstack` to push the `virtualPageNumber` to the top (as most recent).
+        - Return the index of the `virtualPageNumber` in the `invertedPageTable` as the `physicalFrameNumber`.
+      - If no:
+        - Consult the `LRUstack` to find the `virtualPageNumber` in the bottom-most element of the stack.
+        - Replace this element in the `invertedPageTable` with the new `virtualPageNumber` from the logical address.
+        - Update the `LRUstack` by removing the old `virtualPageNumber` and pushing the new one to the top (as most recent).
+        - Return the index of the `virtualPageNumber` in the `invertedPageTable` as the `physicalFrameNumber`.
+
+- Perform the translation using the formula:  
+  `physical_address = physicalFrameNumber * 128 + offset;`
+
 
 ### LRU Policy
 - We are using the stack implementation of the LRU policy
