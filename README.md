@@ -48,6 +48,13 @@ At the end, you can use the same function from **Part 1** to output the translat
 - Similar to Part 1, report the **md5sum** of your output file by writing it to **`p2result.txt`**.
 - Additionally, your program should report the **number of page faults** encountered for the given access sequence, which should also be recorded in `p2result.txt`.
 
+# To Run the Program
+- Enter the following commands:
+   -  `gcc mempart2.c phyframe.c pagetable.c -o mempart2`
+   -  `./mempart2 part2sequence`
+
+- The output will show the number of page faults and generate a `part2out` file
+
 # Notes
 ### Program Process
 - Check if the `virtualPageNumber` from the logical address is in the `invertedPageTable`:
