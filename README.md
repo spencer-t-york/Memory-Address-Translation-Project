@@ -82,5 +82,5 @@ At the end, you can use the same function from **Part 1** to output the translat
 ### LRU Policy
 - We are using the stack implementation of the LRU policy
     - Using an array so the last element is easier/faster to access
-    - When a page number is accessed (whether it is currently in the stack or note, it is moved to the top of the stack.
+    - When a page number is accessed (whether it is currently in the stack or not, it is moved to the top of the stack.
     - At any point, the least recently used page number is at the bottom of the stack. This element will be replaced
