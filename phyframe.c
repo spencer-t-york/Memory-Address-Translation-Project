@@ -33,7 +33,7 @@ int getPhysicalFrameNumber(int pageTable[], Stack *LRUstack, int virtualPageNumb
             return openSpot;        // return the physical frame number
         } else {                    // if there are no open spots in page table
             int LRUVirtualPage = LRUstack->virtualPageNumbers[0];
-            for (int j = 0; j < 8; j++) {
+            for (int j = 1; j < 8; j++) {
                 if (pageTable[j] == LRUVirtualPage) {
                     pageTable[j] = virtualPageNumber;
                     accessPage(LRUstack, virtualPageNumber);
