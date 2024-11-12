@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 int findIndex(int pageTable[], int virtualPageNumber) {
-    for (int i = 0; i <= 7; i++) {
+    for (int i = 1; i < 8; i++) {
         if (pageTable[i] == virtualPageNumber) {
             return i;
         }
@@ -11,7 +11,7 @@ int findIndex(int pageTable[], int virtualPageNumber) {
 }
 
 int findOpenSpot(int pageTable[]) {
-    for (int i = 0; i <= 7; i++) {
+    for (int i = 1; i < 8; i++) {
         if (pageTable[i] == -1) {
             return i;
         }
