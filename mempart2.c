@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-   char *filename = argv[1];
+    char *filename = argv[1];
     FILE *file = fopen(filename, "rb"); // rb for read binary mode
     if (file == NULL) {
         printf("File not found\n");
