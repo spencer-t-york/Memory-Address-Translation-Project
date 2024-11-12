@@ -24,24 +24,32 @@ int getPhysicalFrameNumber(int pageTable[], Stack *LRUstack, int virtualPageNumb
     if (physicalFrameNumber != -1) { // if virtual page number is in page table
         accessPage(LRUstack, virtualPageNumber);
         return physicalFrameNumber;  // return the physical frame number
-    } else {                         // if virtual page number is not in page table
-        (*pageFaultCounter)++;
-        int openSpot = findOpenSpot(pageTable);
-        if (openSpot != -1) {       // if there is an open spot in page table
-            pageTable[openSpot] = virtualPageNumber;
-            accessPage(LRUstack, virtualPageNumber);
-            return openSpot;        // return the physical frame number
-        } else {                    // if there are no open spots in page table
-            int LRUVirtualPage = LRUstack->virtualPageNumbers[0];
-            for (int j = 1; j < 8; j++) {
-                if (pageTable[j] == LRUVirtualPage) {
-                    pageTable[j] = virtualPageNumber;
-                    accessPage(LRUstack, virtualPageNumber);
-                    return j;       // return the physical frame number
-                }
-            }
+    }                         // if virtual page number is not in page table
+    (*pageFaultCounter)++;
+    int openSpot = findOpenSpot(pageTable);
+    if (openSpot != -1) {       // if there is an open spot in page table
+        pageTable[openSpot] = virtualPageNumber;
+        accessPage(LRUstack, virtualPageNumber);
+        return openSpot;        // return the physical frame number
+    }
+
+    // if there are no open spots in page table
+    int LRUVirtualPage = LRUstack->virtualPageNumbers[0];
+    int frameToReplace = -1;
+
+    for (int j = 1; j < 8; j++) {
+        if (pageTable[j] == LRUVirtualPage) {
+            frameToReplace = j;
+            break;
         }
     }
+
+    if (frameToReplace != -1) {
+        pageTable[frameToReplace] = virtualPageNumber;
+        accessPage(LRUstack, virtualPageNumber);
+        return frameToReplace;       // return the physical frame number
+    }
+
     printf("\n!!!!!!!!!!\nSomething went wrong when getting the physical frame number.\n");
     return -1; // in case something goes really wrong
 }
