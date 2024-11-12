@@ -23,6 +23,7 @@ int getPhysicalFrameNumber(int pageTable[], Stack *LRUstack, int virtualPageNumb
     int physicalFrameNumber = findIndex(pageTable, virtualPageNumber);
     if (physicalFrameNumber != -1) { // if virtual page number is in page table
         accessPage(LRUstack, virtualPageNumber);
+        printPageTable(pageTable);
         return physicalFrameNumber;  // return the physical frame number
     }                         // if virtual page number is not in page table
     (*pageFaultCounter)++;
@@ -30,6 +31,7 @@ int getPhysicalFrameNumber(int pageTable[], Stack *LRUstack, int virtualPageNumb
     if (openSpot != -1) {       // if there is an open spot in page table
         pageTable[openSpot] = virtualPageNumber;
         accessPage(LRUstack, virtualPageNumber);
+        printPageTable(pageTable);
         return openSpot;        // return the physical frame number
     }
 
@@ -47,6 +49,7 @@ int getPhysicalFrameNumber(int pageTable[], Stack *LRUstack, int virtualPageNumb
     if (frameToReplace != -1) {
         pageTable[frameToReplace] = virtualPageNumber;
         accessPage(LRUstack, virtualPageNumber);
+        printPageTable(pageTable);
         return frameToReplace;       // return the physical frame number
     }
 
